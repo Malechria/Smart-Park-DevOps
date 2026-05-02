@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 15s # Frecuencia para que Prometheus recolecte los datos
+  evaluation_interval: 15s
+
+# Se define a quién se va a vigilar
+scrape_configs:
+  - job_name: 'smartpark-microservicios'
+    metrics_path: '/metrics'
+    static_configs:
+      # Apunta a los contenedores de Docker que se crearon
+      - targets: 
+        - 'servicio-usuarios:8001'
+        - 'servicio-taquilla:8002'
+
+  - job_name: 'smartpark-base-datos'
+    static_configs:
+      # Apuntamos a la base de datos PostgreSQL
+      - targets: ['smartpark-db:5432']
+      
