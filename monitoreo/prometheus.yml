@@ -14,6 +14,5 @@ scrape_configs:
 
   - job_name: 'smartpark-base-datos'
     static_configs:
-      # Apuntamos a la base de datos PostgreSQL
+      # Se apunta a la base de datos PostgreSQL
       - targets: ['smartpark-db:5432']
-      

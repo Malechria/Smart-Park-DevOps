@@ -1,0 +1,14 @@
+# monitoreo/grafana/datasource.yml
+apiVersion: 1
+
+datasources:
+  - name: Prometheus-SmartPark
+    type: prometheus
+    access: proxy
+    # Esta es la dirección interna donde Grafana encontrará a Prometheus
+    url: http://prometheus:9090 
+    isDefault: true
+    # Se bloquea la edición manual en la web para forzar las buenas prácticas de Infraestructura como Código (IaC)
+    editable: false
+
+    

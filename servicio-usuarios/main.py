@@ -1,5 +1,6 @@
 import os
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware  # <-- 1. Importamos la herramienta de seguridad
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from pydantic import BaseModel
@@ -35,6 +36,17 @@ class UsuarioResponse(BaseModel):
 # 4. Inicialización de la App
 app = FastAPI(title="SmartPark - Servicio de Usuarios")
 
+# --- NUEVO BLOQUE: CONFIGURACIÓN DE CORS ---
+# Esto permite que tu Frontend de Vue.js se comunique con este Backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite peticiones desde cualquier origen (ideal para desarrollo)
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos los encabezados
+)
+# -------------------------------------------
+
 def get_db():
     db = SessionLocal()
     try:
@@ -43,6 +55,10 @@ def get_db():
         db.close()
 
 # 5. Endpoints
+@app.get("/") # Añadimos esta ruta base para probar la conexión rápida
+def inicio():
+    return {"status": "ok", "servicio": "SmartPark - Usuarios"}
+
 @app.post("/usuarios/", response_model=UsuarioResponse)
 def crear_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
     db_user = db.query(UsuarioDB).filter(UsuarioDB.email == usuario.email).first()

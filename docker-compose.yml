@@ -40,6 +40,20 @@ services:
       db:
         condition: service_healthy
 
+  # --- NUEVO SERVICIO FRONTEND ---
+  servicio-frontend:
+    build: ./servicio-frontend
+    container_name: smartpark-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      # Sincroniza tu código local con el contenedor para ver cambios en tiempo real
+      - ./servicio-frontend:/app
+      # Evita que tu entorno local sobreescriba los módulos de Node dentro del contenedor
+      - /app/node_modules
+    depends_on:
+      - servicio-usuarios
+      - servicio-taquilla
+
 volumes:
   db_data:
-
