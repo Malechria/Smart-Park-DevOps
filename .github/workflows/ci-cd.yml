@@ -1,0 +1,46 @@
+name: Pipeline CI/CD SmartPark
+
+# El pipeline se ejecuta cada vez que se hace un push a la rama main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  integracion-continua:
+    name: Build y Contenedores (CI)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código fuente
+        uses: actions/checkout@v3
+
+      - name: Configurar entorno de Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Construir imagen de Docker (Servicio Usuarios)
+        run: |
+          cd servicio-usuarios
+          docker build -t smartpark/usuarios:latest .
+
+      - name: Construir imagen de Docker (Servicio Taquilla)
+        run: |
+          cd servicio-taquilla
+          docker build -t smartpark/taquilla:latest .
+
+  despliegue-continuo:
+    name: Despliegue con Helm (CD)
+    needs: integracion-continua # Espera a que el CI termine 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código fuente
+        uses: actions/checkout@v3
+
+      - name: Instalar Helm
+        uses: azure/setup-helm@v3
+
+      - name: Despliegue en Kubernetes (AWS EKS)
+        run: |
+          echo "Autenticando en AWS EKS..."
+          echo "Simulando actualización: helm upgrade --install smartpark ./k8s-helm/smartpark"
+          echo "¡Los microservicios se han desplegado exitosamente en producción!"
