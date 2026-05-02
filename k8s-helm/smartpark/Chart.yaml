@@ -1,0 +1,7 @@
+apiVersion: v2
+name: smartpark
+description: Un Helm chart para desplegar los microservicios del Parque de Diversiones
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+

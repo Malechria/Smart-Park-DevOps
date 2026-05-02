@@ -1,0 +1,30 @@
+# Configuración global para SmartPark
+replicaCount: 2 # Kubernetes mantendrá siempre 2 copias de cada microservicio vivas
+
+image:
+  repository: smartpark/servicio-usuarios 
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+
+resources:
+  # Límites de seguridad 
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  
