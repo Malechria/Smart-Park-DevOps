@@ -1,0 +1,39 @@
+- name: Configuración del Servidor de Gestión SmartPark
+  hosts: all
+  become: yes # Ejecutar como administrador (root)
+  
+  tasks:
+    - name: Actualizar la paquetería del sistema (Ubuntu)
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Instalar dependencias básicas
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - unzip
+        state: present
+
+    - name: Instalar Docker (Para correr contenedores en el futuro)
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Descargar e instalar HashiCorp Vault (Seguridad de DevOps)
+      unarchive:
+        src: https://releases.hashicorp.com/vault/1.15.0/vault_1.15.0_linux_amd64.zip
+        dest: /usr/local/bin/
+        remote_src: yes
+
+    - name: Verificar que Vault se instaló correctamente
+      command: vault --version
+      register: vault_version
+
+    - name: Mostrar versión de Vault instalada
+      debug:
+        msg: "Instalación completada: {{ vault_version.stdout }}"
+        

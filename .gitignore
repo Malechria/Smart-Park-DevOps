@@ -1,0 +1,42 @@
+# ========================
+# Sistema Operativo (Mac)
+# ========================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ========================
+# Python / FastAPI
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+.env
+
+# ========================
+# Terraform (Crítico para Seguridad)
+# ========================
+# Ignorar el directorio donde Terraform descarga los proveedores
+.terraform/
+# Ignorar los archivos de estado que pueden contener secretos
+*.tfstate
+*.tfstate.backup
+# Ignorar variables locales
+*.tfvars
+*.tfvars.json
+# Ignorar el archivo de bloqueo si no trabajas en equipo concurrente
+.terraform.lock.hcl
+
+# ========================
+# Ansible
+# ========================
+*.retry
+
+# ========================
+# Entornos e IDEs (VS Code)
+# ========================
+.vscode/
+.idea/
