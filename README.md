@@ -41,7 +41,7 @@ Git
 
 ## Ejecución en Entorno Local
 Clonar el repositorio:
-git clone https://github.com/TU_USUARIO/Smart-Park-DevOps.git
+git clone https://github.com/Malechria/Smart-Park-DevOps.git
 cd Smart-Park-DevOps
 
 ## Construir y levantar los contenedores en segundo plano:
